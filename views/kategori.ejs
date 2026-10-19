@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kelola Kategori - Lost and Found</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f7f6; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #000080; color: white; }
+        .btn { padding: 8px 12px; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-tambah { background-color: #28a745; }
+        .btn-hapus { background-color: #dc3545; }
+        .alert { padding: 10px; background-color: #fff3cd; color: #856404; margin-bottom: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Master: Kategori Barang</h2>
+        <a href="/panel-petugas" style="display:inline-block; margin-bottom:15px; color:#000080;">&larr; Kembali ke Dasbor</a>
+
+        <!-- Tempat memunculkan pesan (sukses/gagal) -->
+        <% if (pesan) { %>
+            <div class="alert"><%= pesan %></div>
+        <% } %>
+
+        <!-- Form CREATE -->
+        <div style="background: #e9ecef; padding: 15px; border-radius: 4px;">
+            <strong>Tambah Kategori Baru</strong>
+            <form action="/kategori/tambah" method="POST" style="margin-top: 10px;">
+                <input type="text" name="nama_kategori" placeholder="Ketik nama kategori..." required style="padding: 8px; width: 60%;">
+                <button type="submit" class="btn btn-tambah">Simpan (Create)</button>
+            </form>
+        </div>
+
+        <!-- Tabel READ & DELETE -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Kategori</th>
+                    <th style="text-align: center;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% dataKategori.forEach(kategori => { %>
+                <tr>
+                    <td><%= kategori.id_kategori %></td>
+                    <td><%= kategori.nama_kategori %></td>
+                    <td style="text-align: center;">
+                        <form action="/kategori/hapus/<%= kategori.id_kategori %>" method="POST">
+                            <button type="submit" class="btn btn-hapus" onclick="return confirm('Anda yakin ingin menghapus kategori ini?')">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Lapor Barang Temuan</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; padding: 20px; }
+        .container { background: white; padding: 25px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { color: #000080; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-submit { background-color: #000080; color: white; padding: 12px; border: none; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-submit:hover { background-color: #000050; }
+        .alert { padding: 10px; background-color: #d1ecf1; color: #0c5460; margin-bottom: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Form Lapor Barang Temuan</h2>
+        <a href="/katalog" style="color: #000080; margin-bottom: 15px; display: inline-block;">&larr; Batal dan Kembali</a>
+
+        <% if (pesan) { %>
+            <div class="alert"><strong>Pesan:</strong> <%= pesan %></div>
+        <% } %>
+
+        <!-- Atribut enctype wajib ada agar file gambar bisa terkirim ke server -->
+        <form action="/proses-lapor-temuan" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label>Kategori Barang</label>
+                <select name="id_kategori" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    <% kategori.forEach(k => { %>
+                        <option value="<%= k.id_kategori %>"><%= k.nama_kategori %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nama Barang (Contoh: Dompet Hitam)</label>
+                <input type="text" name="nama_barang" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Ditemukan</label>
+                <input type="date" name="tanggal_ditemukan" required>
+            </div>
+
+            <div class="form-group">
+                <label>Waktu Ditemukan</label>
+                <input type="time" name="waktu_ditemukan" required>
+            </div>
+
+            <div class="form-group">
+                <label>Lokasi Ditemukan (Detail)</label>
+                <input type="text" name="lokasi_ditemukan" required placeholder="Contoh: Meja ujung kantin FST">
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi Tambahan</label>
+                <textarea name="deskripsi_detail" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Unggah Foto Barang (Maks. 5 MB)</label>
+                <input type="file" name="foto_asli" accept="image/png, image/jpeg" required>
+            </div>
+
+            <button type="submit" class="btn-submit">KIRIM LAPORAN TEMUAN</button>
+        </form>
+    </div>
+</body>
+</html>
