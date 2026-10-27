@@ -2,6 +2,8 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const { tampilkanFormLapor, prosesLaporBarang } = require('./controllers/LaporanController');
+const { tampilkanKatalog } = require('./controllers/KatalogController');
+const { tampilkanDashboard, cetakLaporan } = require('./controllers/DashboardController');
 
 // Panggil Controller dan Middleware yang baru kita buat
 const { prosesLogin, prosesLogout } = require('./controllers/AuthController');
@@ -59,6 +61,26 @@ app.get('/panel-petugas', cekLogin, (req, res) => {
               <p>Selamat bertugas, ${req.session.nama}</p>
               <a href="/logout">Keluar (Logout)</a>`);
 });
+
+// Rute Halaman Mahasiswa (Integrasi Search & Transaksi)
+app.get('/katalog', cekLogin, tampilkanKatalog);
+
+// Rute Halaman Satpam (Integrasi Dashboard)
+app.get('/panel-petugas', cekLogin, (req, res, next) => {
+    // Validasi Hak Akses Khusus Satpam
+    if (req.session.peran !== 'Satpam' && req.session.peran !== 'Administrator') {
+        return res.send('Akses Ditolak! Halaman ini khusus Petugas Keamanan.');
+    }
+    next();
+}, tampilkanDashboard);
+
+// Rute Cetak Laporan (Hanya Satpam)
+app.get('/cetak-laporan', cekLogin, (req, res, next) => {
+    if (req.session.peran !== 'Satpam' && req.session.peran !== 'Administrator') {
+        return res.send('Akses Ditolak!');
+    }
+    next();
+}, cetakLaporan);
 
 // ================= RUTE CRUD KATEGORI ================= //
 app.get('/kategori', cekLogin, tampilkanKategori); // Menampilkan halaman (Read)

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Satpam</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #e9ecef; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 800px; margin: auto; }
+        .card-container { display: flex; gap: 20px; margin-bottom: 20px; }
+        .card { flex: 1; padding: 20px; background: #000080; color: white; border-radius: 8px; text-align: center; }
+        .card h3 { font-size: 30px; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .btn-nav { padding: 10px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; display: inline-block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Panel Keamanan - <%= nama %></h2>
+        <a href="/logout" style="color: red; text-decoration: none;">&rarr; Keluar</a>
+        <hr>
+
+        <!-- Indikator Angka Dashboard -->
+        <div class="card-container">
+            <div class="card">
+                <p>Total Barang Ditemukan</p>
+                <h3><%= total_barang %></h3>
+            </div>
+            <div class="card" style="background: #dc3545;">
+                <p>Barang Belum Diklaim</p>
+                <h3><%= belum_klaim %></h3>
+            </div>
+            <div class="card" style="background: #17a2b8;">
+                <p>Total Kategori Barang</p>
+                <h3><%= total_kategori %></h3>
+            </div>
+        </div>
+
+        <a href="/cetak-laporan" target="_blank" class="btn-nav">🖨️ Cetak Laporan Rekapitulasi</a>
+        <a href="/kategori" class="btn-nav" style="background: #6c757d;">Kelola Master Kategori</a>
+
+        <h3>5 Barang Temuan Terbaru</h3>
+        <table>
+            <tr>
+                <th>ID Barang</th>
+                <th>Nama Barang</th>
+                <th>Status</th>
+                <th>Waktu Sistem</th>
+            </tr>
+            <% dataTerbaru.forEach(b => { %>
+            <tr>
+                <td><%= b.id_barang_temuan %></td>
+                <td><%= b.nama_barang %></td>
+                <td><strong><%= b.status_barang %></strong></td>
+                <td><%= b.waktu_unggah.toLocaleString('id-ID') %></td>
+            </tr>
+            <% }) %>
+        </table>
+    </div>
+</body>
+</html>

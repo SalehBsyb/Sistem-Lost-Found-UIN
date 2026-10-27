@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Cetak Laporan</title>
+    <style>
+        /* Desain bersih untuk dicetak (Print) */
+        body { font-family: 'Times New Roman', Times, serif; color: black; background: white; padding: 20px; }
+        .kop-surat { text-align: center; border-bottom: 3px solid black; margin-bottom: 20px; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        @media print { .btn-cetak { display: none; } } /* Tombol disembunyikan saat dicetak */
+    </style>
+</head>
+<body>
+    <button class="btn-cetak" onclick="window.print()" style="padding:10px; margin-bottom: 20px;">Cetak PDF (Ctrl+P)</button>
+    
+    <div class="kop-surat">
+        <h2>LAPORAN REKAPITULASI BARANG TEMUAN</h2>
+        <p>Sistem Informasi Keamanan Kampus UIN Malang</p>
+        <p>Tanggal Cetak: <%= tanggalCetak %></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ID Transaksi</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Tanggal Temuan</th>
+                <th>Nama Penemu</th>
+                <th>Status Akhir</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% dataLaporan.forEach((item, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= item.id_barang_temuan %></td>
+                <td><%= item.nama_barang %></td>
+                <td><%= item.nama_kategori %></td>
+                <td><%= item.tanggal_ditemukan.toLocaleDateString('id-ID') %></td>
+                <td><%= item.penemu %></td>
+                <td><%= item.status_barang %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>

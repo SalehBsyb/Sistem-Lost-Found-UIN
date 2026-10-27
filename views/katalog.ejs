@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Katalog Barang Temuan</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 800px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; color: white; background: #000080; }
+        .search-box { margin-bottom: 20px; }
+        .search-box input { padding: 8px; width: 60%; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #000080; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Katalog Barang - Halo, <%= nama %>!</h2>
+            <div>
+                <a href="/lapor-temuan" class="btn">+ Lapor Barang</a>
+                <a href="/logout" class="btn" style="background: #dc3545;">Keluar</a>
+            </div>
+        </div>
+
+        <!-- Form Pencarian (Search) -->
+        <div class="search-box">
+            <form action="/katalog" method="GET">
+                <input type="text" name="cari" value="<%= kataKunci %>" placeholder="Cari nama barang...">
+                <button type="submit" class="btn">Cari Data</button>
+            </form>
+        </div>
+
+        <!-- Tabel Transaksi Barang -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Ditemukan Pada</th>
+                    <th>Penemu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(dataBarang.length === 0) { %>
+                    <tr><td colspan="5" style="text-align:center;">Barang tidak ditemukan.</td></tr>
+                <% } %>
+                <% dataBarang.forEach(b => { %>
+                <tr>
+                    <td><img src="/uploads/<%= b.foto_asli %>" alt="Foto" width="50"></td>
+                    <td><strong><%= b.nama_barang %></strong></td>
+                    <td><%= b.nama_kategori %></td>
+                    <td><%= b.tanggal_ditemukan.toDateString() %></td>
+                    <td><%= b.nama_penemu %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
