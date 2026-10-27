@@ -52,16 +52,6 @@ app.get('/katalog', cekLogin, (req, res) => {
               <a href="/logout">Keluar (Logout)</a>`);
 });
 
-// 6. Rute Terlindungi (Protected Routes) - Satpam
-app.get('/panel-petugas', cekLogin, (req, res) => {
-    if (req.session.peran !== 'Satpam' && req.session.peran !== 'Administrator') {
-        return res.send('Akses Ditolak! Halaman ini khusus Petugas Keamanan.');
-    }
-    res.send(`<h1>Panel Verifikasi Petugas</h1> 
-              <p>Selamat bertugas, ${req.session.nama}</p>
-              <a href="/logout">Keluar (Logout)</a>`);
-});
-
 // Rute Halaman Mahasiswa (Integrasi Search & Transaksi)
 app.get('/katalog', cekLogin, tampilkanKatalog);
 
